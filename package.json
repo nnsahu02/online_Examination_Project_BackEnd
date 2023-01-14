@@ -1,0 +1,29 @@
+{
+  "name": "online_examination_project_backend",
+  "version": "1.0.0",
+  "description": "BackEnd part of online examination Project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nnsahu02/online_Examination_Project_BackEnd.git"
+  },
+  "author": "\"Nrusinghanath sahu\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nnsahu02/online_Examination_Project_BackEnd/issues"
+  },
+  "homepage": "https://github.com/nnsahu02/online_Examination_Project_BackEnd#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1295.0",
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20"
+  }
+}
