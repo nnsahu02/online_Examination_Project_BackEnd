@@ -29,6 +29,10 @@ const questionSchema = new mongoose.Schema({
         type: String,
         enum: ['easy', 'medium', 'hard'],
         required: true
+    },
+    isDeleted : {
+        type : Boolean,
+        default : false
     }
 }, { timestamps: true })
 

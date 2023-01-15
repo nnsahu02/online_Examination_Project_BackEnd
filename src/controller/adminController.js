@@ -81,4 +81,83 @@ const createQuestion = async (req, res) => {
 }
 
 
-module.exports = { adminLogin, createQuestion }
+//Get all questions
+const getQuestions = async (req, res) => {
+    try {
+        const { Subject, Question, Level } = req.query
+
+        const filter = { isDeleted: false }
+        if (Subject) {
+            filter.Subject = Subject
+        }
+        if (Question) {
+            filter.Question = Question
+        }
+        if (Level) {
+            filter.Level = Level
+        }
+
+        const allQn = await questionModel.find(filter)
+        if (allQn.length == 0) {
+            return res.status(404).send({ status: false, message: "No questions found with this filer." })
+        }
+
+        return res.status(200).send({ status: true, message: "The Question Lists are :-", data: allQn })
+    } catch (error) {
+        return res.status(500).send({ status: false, message: error.message })
+    }
+}
+
+
+//Update Questions
+const updateQuestion = async (req, res) => {
+    try {
+        const questionId = req.params.questionId
+        const bodyData = req.body
+        const image = req.files
+        const { Subject, Question, Level } = bodyData
+
+        if (image && image.length > 0) {
+            let uploadImage = await uploadFile(image[0]);
+            bodyData.Attachment = uploadImage;
+        }
+
+        const updateData = await questionModel.findOneAndUpdate(
+            { _id: questionId, isDeleted: false },
+            { $set: bodyData },
+            { new: true }
+        )
+        if (!updateData) {
+            return res.status(400).send({ status: false, message: "No question found with this Id or the question is deleted." })
+        }
+
+        return res.status(200).send({ status: true, message: "Question updated successfully", data: updateData })
+
+    } catch (error) {
+        return res.status(500).send({ status: false, message: error.message })
+    }
+}
+
+
+//delete Questions
+const deleteQuestion = async (req, res) => {
+    try {
+        const questionId = req.params.questionId
+
+        const deleteData = await questionModel.findOneAndUpdate(
+            { _id: questionId, isDeleted: false },
+            { isDeleted: true },
+            { new: true }
+        )
+        if (!deleteData) {
+            return res.status(400).send({ status: false, message: "No question found with this Id or the question is deleted." })
+        }
+
+        return res.status(200).send({ status: true, message: "Question updated successfully", data: deleteData })
+    } catch (error) {
+        return res.status(500).send({ status: false, message: error.message })
+    }
+}
+
+
+module.exports = { adminLogin, createQuestion, getQuestions, updateQuestion, deleteQuestion }

@@ -22,6 +22,10 @@ const studentSchema = new mongoose.Schema({
     exams: {
         type: [ObjectId],
         ref: 'Exam'
+    },
+    isDeleted : {
+        type : Boolean,
+        default : false
     }
 }, { timestamps: true });
 
